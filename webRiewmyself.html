@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Thông Tin Cá Nhân</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      /* Reset CSS */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Base styles */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #f5f5f5;
+        background-color: #111;
+        min-height: 100vh;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Main container */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 15px;
+        display: flex;
+        gap: 20px;
+      }
+
+      /* Left column - Profile card */
+      .profile-card {
+        width: 300px;
+        background-color: #1a1a1a;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .profile-header {
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #1a1a1a;
+        margin-bottom: 15px;
+      }
+
+      .profile-name {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .profile-title {
+        color: #aaa;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .contact-info {
+        border-top: 1px solid #333;
+        padding: 15px 20px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .contact-icon {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+        background-color: #2563eb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        color: white;
+        font-size: 13px;
+      }
+
+      .contact-content {
+        flex: 1;
+        max-width: calc(100% - 40px);
+        overflow-wrap: break-word;
+        word-break: break-all;
+      }
+
+      .contact-label {
+        font-size: 11px;
+        color: #aaa;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .contact-value {
+        font-size: 13px;
+      }
+
+      .contact-value a:hover {
+        color: #2563eb;
+        text-decoration: underline;
+      }
+
+      /* Right column - Content */
+      .content-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navigation menu */
+      .nav-menu {
+        display: flex;
+        background-color: #1a1a1a;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+
+      .nav-item {
+        padding: 8px 15px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: color 0.3s;
+        position: relative;
+        font-size: 14px;
+      }
+
+      .nav-item:hover {
+        color: #2563eb;
+      }
+
+      .nav-item.active {
+        color: #2563eb;
+      }
+
+      .nav-item.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 15px;
+        right: 15px;
+        height: 3px;
+        background-color: #2563eb;
+        border-radius: 3px;
+      }
+
+      /* Content section */
+      .content-section {
+        background-color: #1a1a1a;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background-color: #2563eb;
+        border-radius: 3px;
+      }
+
+      .about-text {
+        margin-bottom: 20px;
+        color: #ddd;
+        font-size: 14px;
+      }
+
+      /* Resume section */
+      .resume-item {
+        margin-bottom: 15px;
+        position: relative;
+        padding-left: 25px;
+      }
+
+      .resume-subsection {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .resume-subsection h3 {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+   
+      .resume-item::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #2563eb;
+        z-index: 1;
+      }
+
+      .resume-date {
+        color: #aaa;
+        font-size: 13px;
+        margin-bottom: 5px;
+        position: relative;
+      }
+
+      .resume-dots {
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .resume-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #2563eb;
+        border-radius: 50%;
+        margin-right: 5px;
+        opacity: 0.2;
+      }
+
+      .resume-dot.active {
+        opacity: 1;
+      }
+
+      /* Skills section */
+      .skills-item {
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+
+      .skill-bar {
+        width: 100%;
+        height: 8px;
+        background-color: #333;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .skill-progress {
+        height: 100%;
+        background-color: #2563eb;
+        border-radius: 4px;
+      }
+
+      /* Services grid */
+      .services-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 30px 0 20px;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .service-card {
+        background-color: #222;
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .service-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #2563eb;
+        color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .service-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .service-desc {
+        font-size: 13px;
+        color: #aaa;
+      }
+
+      /* Animation dots */
+      .dots-container {
+        margin: 30px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background-color: #2563eb;
+        border-radius: 50%;
+        margin-right: 5px;
+        opacity: 0.2;
+      }
+
+      .dot.active {
+        opacity: 1;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          padding: 20px 10px;
+        }
+
+        .profile-card {
+          width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+
+        .profile-img {
+          width: 100px;
+          height: 100px;
+          border: 3px solid #1a1a1a;
+        }
+
+        .profile-name {
+          font-size: 20px;
+        }
+
+        .profile-title {
+          font-size: 13px;
+        }
+
+        .contact-info {
+          padding: 15px;
+        }
+
+        .contact-item {
+          margin-bottom: 10px;
+        }
+
+        .contact-icon {
+          width: 25px;
+          height: 25px;
+          min-width: 25px;
+          font-size: 12px;
+        }
+
+        .contact-content {
+          max-width: calc(100% - 37px);
+        }
+
+        .contact-label {
+          font-size: 10px;
+        }
+
+        .contact-value {
+          font-size: 12px;
+        }
+
+        .nav-menu {
+          flex-direction: column;
+          align-items: center;
+          padding: 10px;
+        }
+
+        .nav-item {
+          padding: 10px;
+          font-size: 13px;
+          width: 100%;
+          text-align: center;
+        }
+
+        .nav-item.active::after {
+          left: 10px;
+          right: 10px;
+        }
+
+        .content-section {
+          padding: 20px;
+        }
+
+        .section-title {
+          font-size: 20px;
+        }
+
+        .section-title::after {
+          width: 35px;
+        }
+
+        .about-text {
+          font-size: 13px;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .services-title {
+          font-size: 18px;
+        }
+
+        .service-card {
+          padding: 15px;
+        }
+
+        .service-icon {
+          width: 35px;
+          height: 35px;
+          font-size: 18px;
+        }
+
+        .service-title {
+          font-size: 15px;
+        }
+
+        .service-desc {
+          font-size: 12px;
+        }
+
+        .resume-subsection h3 {
+          font-size: 18px;
+        }
+
+        .resume-subsection h3::before {
+          font-size: 16px;
+        }
+
+        .resume-item {
+          padding-left: 20px;
+        }
+
+        .resume-date {
+          font-size: 12px;
+        }
+
+        .skills-item {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 15px 5px;
+        }
+
+        .profile-img {
+          width: 80px;
+          height: 80px;
+        }
+
+        .profile-name {
+          font-size: 18px;
+        }
+
+        .profile-title {
+          font-size: 12px;
+        }
+
+        .contact-icon {
+          width: 22px;
+          height: 22px;
+          font-size: 11px;
+        }
+
+        .contact-content {
+          max-width: calc(100% - 34px);
+        }
+
+        .contact-label {
+          font-size: 9px;
+        }
+
+        .contact-value {
+          font-size: 11px;
+        }
+
+        .nav-item {
+          font-size: 12px;
+          padding: 8px;
+        }
+
+        .content-section {
+          padding: 15px;
+        }
+
+        .section-title {
+          font-size: 18px;
+        }
+
+        .section-title::after {
+          width: 30px;
+        }
+
+        .about-text {
+          font-size: 12px;
+        }
+
+        .services-title {
+          font-size: 16px;
+        }
+
+        .service-icon {
+          width: 30px;
+          height: 30px;
+          font-size: 16px;
+        }
+
+        .service-title {
+          font-size: 14px;
+        }
+
+        .service-desc {
+          font-size: 11px;
+        }
+
+        .resume-subsection h3 {
+          font-size: 16px;
+        }
+
+        .resume-subsection h3::before {
+          font-size: 14px;
+        }
+
+        .resume-date {
+          font-size: 11px;
+        }
+
+        .skills-item {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left column - Profile card -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <img
+            src="/public/images/dg.jpg"
+            alt="Profile Photo"
+            class="profile-img"
+          />
+          <h1 class="profile-name">Nguyễn Tô Dương</h1>
+          <p class="profile-title">Developer</p>
+        </div>
+
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">EMAIL</div>
+              <div class="contact-value">duongnguyen0023@gmail.com</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">PHONE</div>
+              <div class="contact-value">0961724356</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-facebook-f"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">FACEBOOK</div>
+              <div class="contact-value">
+                <a href="https://www.facebook.com/duongnguyen.2k3" target="_blank">https://www.facebook.com/duongnguyen.2k3</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-tiktok"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">TIKTOK</div>
+              <div class="contact-value">
+                <a href="https://www.tiktok.com/@duongnguyen2k3" target="_blank">https://www.tiktok.com/@duongnguyen2k3</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-soundcloud"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">SOUNDCLOUD</div>
+              <div class="contact-value">
+                <a href="https://soundcloud.com/duongnguyen4203" target="_blank">https://soundcloud.com/duongnguyen4203</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-calendar"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">BIRTHDAY</div>
+              <div class="contact-value">Feb 4, 2003</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-content">
+              <div class="contact-label">LOCATION</div>
+              <div class="contact-value">Ngu Hanh Son, Da Nang</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column - Content -->
+      <div class="content-container">
+        <!-- Navigation menu -->
+        <div class="nav-menu">
+          <div class="nav-item active" onclick="showSection('about')">
+            About
+          </div>
+          <div class="nav-item" onclick="showSection('resume')">Resume</div>
+          <div class="nav-item" onclick="showSection('portfolio')">
+            Portfolio
+          </div>
+          <div class="nav-item" onclick="showSection('blog')">Blog</div>
+          <div class="nav-item" onclick="showSection('contact')">Contact</div>
+        </div>
+
+        <!-- Content section -->
+        <div class="content-section" id="content-area">
+          <h2 class="section-title">About Me</h2>
+          <p class="about-text">
+            "I am studying Computer Science at the Vietnam - Korea University of
+            Information and Communication Technology from 2021 to 2026.
+          </p>
+          <p class="about-text">
+            I major in Information Technology, and I have a strong passion for
+            technology and software development. In my free time, I enjoy
+            learning new programming languages, exploring the latest tech
+            trends, and building practical projects. My goal is to create useful
+            products, from websites to mobile applications, that can help people
+            in various aspects of life such as education, health, communication,
+            and daily tasks. In this digital era, I believe technology has the
+            power to make life more convenient, efficient, and connected — and I
+            want to be a part of that transformation.
+          </p>
+          <div class="dots-container">
+            <div class="dot active"></div>
+            <div class="dot active"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <h3 class="services-title">What I'm Doing</h3>
+          <div class="services-grid">
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <h4 class="service-title">Web Design</h4>
+              <p class="service-desc">
+                Creating professional web interfaces tailored to different
+                industries
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <h4 class="service-title">Web Development</h4>
+              <p class="service-desc">
+                Building a secure and high-performance backend system.
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="service-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h4 class="service-title">Mobile Apps</h4>
+              <p class="service-desc">
+                Professional development of applications for iOS and Android by
+                Flutter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showSection(sectionId) {
+        const contentArea = document.getElementById("content-area");
+        const navItems = document.querySelectorAll(".nav-item");
+
+        // Remove active class from all nav items
+        navItems.forEach((item) => item.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // Define content for each section
+        const aboutContent = `
+                <h2 class="section-title">About Me</h2>
+                <p class="about-text">"I am studying Computer Science at the Vietnam - Korea University of Information and Communication Technology from 2021 to 2026.</p>
+                <p class="about-text">I major in Information Technology, and I have a strong passion for technology and software development. In my free time, I enjoy learning new programming languages, exploring the latest tech trends, and building practical projects. My goal is to create useful products, from websites to mobile applications, that can help people in various aspects of life such as education, health, communication, and daily tasks. In this digital era, I believe technology has the power to make life more convenient, efficient, and connected — and I want to be a part of that transformation.</p>
+                <div class="dots-container">
+                    <div class="dot active"></div>
+                    <div class="dot active"></div>
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <h3 class="services-title">What I'm Doing</h3>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h4 class="service-title">Web Design</h4>
+                        <p class="service-desc">Creating professional web interfaces tailored to different industries</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4 class="service-title">Web Development</h4>
+                        <p class="service-desc">Building a secure and high-performance backend system.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4 class="service-title">Mobile Apps</h4>
+                        <p class="service-desc">Professional development of applications for iOS and Android by Flutter.</p>
+                    </div>
+                </div>
+            `;
+
+        const resumeContent = `
+                <h2 class="section-title">Resume</h2>
+                <div class="resume-subsection">
+                    <h3>Education</h3>
+                    <div class="resume-item">
+                        <div class="resume-date">2021 — 2026</div>
+                        <div>Vietnam - Korea University of Information and Communication Technology</div>
+                        <p>Majoring in Information Technology with a focus on software development.</p>
+                        <div class="resume-dots">
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="resume-subsection">
+                    <h3>Experience</h3>
+                    <div class="resume-item">
+                        <div class="resume-date">2025</div>
+                        <div>Intern at Da Nang Software Development Center</div>
+                        <p>Researching the application of artificial intelligence in identifying clean (organic) fruits.</p>
+                        
+                    </div>
+                    <div class="resume-item">
+                        <div class="resume-date">2024</div>
+                        <div>Freelance Web and App Developer</div>
+                        <p>Designed and developed websites and mobile app for small businesses.</p>
+                        
+                        </div>
+                    </div>
+                    <div class="resume-item">
+                        <div class="resume-date">2023 — 2024</div>
+                        <div>Intern Mobile Developer</div>
+                        <p>Assisted in developing mobile apps using Flutter for a startup.</p>
+                        <div class="resume-dots">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="resume-subsection">
+                    <h3>My Skills</h3>
+                    <div class="skills-item">
+                        <div>HTML, CSS, BOOTSTRAP, TAILWIND, REACTJS, FLUTTER.</div>
+                        
+                    </div>
+                    <div class="skills-item">
+                        <div>JAVASCRIPT, NODEJS, EXPRESS, DART, RESTful API.</div>
+                        
+                    </div>
+                    <div class="skills-item">
+                        <div>FIREBASE, MYSQL, MONGODB.</div>
+                        
+                    </div>
+                   
+                </div>
+            `;
+
+        const portfolioContent = `<h2 class="section-title">Portfolio</h2><p>Portfolio content coming soon...</p>`;
+        const blogContent = `<h2 class="section-title">Blog</h2><p>Blog content coming soon...</p>`;
+        const контактContent = `<h2 class="section-title">Contact</h2><p>Contact content coming soon...</p>`;
+
+        // Update content based on sectionId
+        if (sectionId === "about") {
+          contentArea.innerHTML = aboutContent;
+        } else if (sectionId === "resume") {
+          contentArea.innerHTML = resumeContent;
+        } else if (sectionId === "portfolio") {
+          contentArea.innerHTML = portfolioContent;
+        } else if (sectionId === "blog") {
+          contentArea.innerHTML = blogContent;
+        } else if (sectionId === "contact") {
+          contentArea.innerHTML = contactContent;
+        }
+      }
+    </script>
+  </body>
+</html>
